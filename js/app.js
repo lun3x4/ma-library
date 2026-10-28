@@ -47,6 +47,7 @@ dlo:'<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-wid
 const ic=(n,s=24)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" ${S[n]?'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"':F[n]?'fill="currentColor"':''}>${S[n]||F[n]||C[n]}</svg>`;
 
 /* ---------- data ---------- */
+const own=()=>U.name||L['owner'];
 const byId=id=>T.find(t=>t.id===id);
 const likedPl=()=>({name:'Liked Songs',liked:1,tracks:U.likes.map(byId).filter(Boolean)});
 const getPl=n=>n==='Liked Songs'?likedPl():L.playlists.find(p=>p.name===n)||(c=>c&&{name:n,custom:1,tracks:c.ids.map(byId).filter(Boolean)})(U.custom.find(c=>c.name===n));
@@ -60,7 +61,7 @@ const epc=`<div class="cv" style="background:#056952"><span style="display:conte
 const evc=v=>{const d=new Date(v.date+'T12:00');return`<div class="cv ev" style="${v.cover?`background-image:linear-gradient(#0007,#0007),url('${url(v.cover)}')`:grad(v.name)}"><small>${d.toLocaleString('en',{month:'short'})}</small><b>${d.getDate()}</b><small>${d.getFullYear()}</small></div>`};
 
 function items(){
-  const o=L.owner,a=[],h=n=>'#/pl/'+encodeURIComponent(n);
+  const o=own(),a=[],h=n=>'#/pl/'+encodeURIComponent(n);
   a.push({key:'Liked Songs',n:'Liked Songs',sub:'Playlist • '+o,cv:lcv(),href:h('Liked Songs'),k:'pl'});
   a.push({key:'Your Episodes',n:'Your Episodes',sub:'Playlist • Saved & downloaded episodes',cv:epc,href:'#/ep',k:'ep'});
   L.playlists.forEach(p=>a.push({key:p.name,n:p.name,sub:'Playlist • '+o,cv:cv(p.name,p.cover),href:h(p.name),k:'pl'}));
@@ -90,7 +91,7 @@ const gone=()=>{setTimeout(()=>{location.hash='#/lib'});return''};
 
 /* ---------- views ---------- */
 const V={};
-const libTop=()=>`<header class="hd"><button class="av" data-a="prof" style="${grad('me')}">${e((L.owner[0]||'m').toUpperCase())}</button><h1>Your Library</h1><button data-a="ls">${ic('search',28)}</button><button data-a="add">${ic('plus',32)}</button></header>
+const libTop=()=>`<header class="hd"><button class="av" data-a="go" data-v="profile" style="${grad('me')}">${e((own()[0]||'m').toUpperCase())}</button><h1>Your Library</h1><button data-a="ls">${ic('search',28)}</button><button data-a="add">${ic('plus',32)}</button></header>
 ${showS?`<div class="ib">${ic('search',18)}<input id="lq" placeholder="Search in Your Library" value="${e(q)}"></div>`:''}
 <div class="chips">${filt?`<button class="ch x" data-a="chip" data-v="${filt}">${ic('x',14)}</button>`:''}${Object.keys(FL).filter(f=>!filt||f==filt).map(f=>`<button class="ch${f==filt?' on':''}" data-a="chip" data-v="${f}">${f}</button>`).join('')}</div>`;
 V.lib=()=>{PL=[];return`<div class="sr"><button data-a="so">${ic('sort',22)}<span>${SN[U.sort]}</span></button><button data-a="vw">${ic(U.grid?'list':'grid',22)}</button></div><div id="list">${lst()}</div>`};
@@ -106,7 +107,7 @@ V.search=()=>`<h1 class="pg">Search</h1><div class="ib big">${ic('search',22)}<i
 
 
 V.pl=n=>{const p=getPl(n);if(!p)return gone();PL=p.tracks;
-return`${back}<div class="hero">${p.liked?lcv():cv(n,p.cover)}<h1>${e(n)}</h1><p>${e(L.owner)} • ${PL.length} songs</p></div>
+return`${back}<div class="hero">${p.liked?lcv():cv(n,p.cover)}<h1>${e(n)}</h1><p>${e(own())} • ${PL.length} songs</p></div>
 <div class="ab"><button data-a="dlt" data-v="${e(n)}">${ic(U.dl.includes(n)?'dl':'dlo',28)}</button><button data-a="im" data-v="${e(n)}">${ic('dots',28)}</button><span></span><button data-a="shp" class="${shuf?'g':''}">${ic('shuf',28)}</button><button class="bp" data-a="pall">${ic('play',28)}</button></div>
 ${PL.map((t,i)=>tr(t,i)).join('')||'<p class="em">Nothing here yet. Add songs from any track’s ⋯ menu.</p>'}`};
 
@@ -114,7 +115,13 @@ V.ar=n=>{PL=arts()[n]||[];return`${back}<div class="hero">${cv(n,(L.artists||{})
 
 V.ev=i=>{const v=(L.events||[])[i];if(!v)return gone();PL=[];const d=new Date(v.date+'T12:00');
 return`${back}<div class="hero">${evc(v)}<h1>${e(v.name)}</h1><p>${d.toLocaleDateString('en',{dateStyle:'long'})} • ${e(v.venue)}</p></div>${v.url?`<p class="em"><a class="pill" href="${e(v.url)}" target="_blank" rel="noopener">Get tickets</a></p>`:''}`};
-V.ep=()=>{PL=[];return`${back}<div class="hero">${epc}<h1>Your Episodes</h1><p>${e(L.owner)}</p></div><p class="em">Podcast episodes you save will show up here.</p>`};
+V.ep=()=>{PL=[];return`${back}<div class="hero">${epc}<h1>Your Episodes</h1><p>${e(own())}</p></div><p class="em">Podcast episodes you save will show up here.</p>`};
+
+V.profile=()=>{PL=[];const it=items(),pl=it.filter(x=>x.k=='pl'&&x.key!='Liked Songs'),fo=it.filter(x=>x.k=='ar'),rw=x=>`<a class="r sm" href="${x.href}" data-key="${e(x.key)}">${x.cv}<div class="rt"><b>${e(x.n)}</b><span>${e(x.sub)}</span></div></a>`;
+return`${back}<div class="hero"><div class="pfav" style="${grad('me')}">${e((own()[0]||'m').toUpperCase())}</div><h1>${e(own())}</h1><p>${pl.length} playlists • ${fo.length} following • ${U.likes.length} liked songs</p><button class="fb" style="margin-top:16px" data-a="ren">Edit profile</button></div>
+<h2>Following</h2>${fo.map(rw).join('')||'<p class="em">You don’t follow any artist yet. Find some in Search.</p>'}
+<h2>Playlists</h2>${pl.map(rw).join('')||'<p class="em">No playlists yet.</p>'}
+<div class="pfa"><button class="op" data-a="rst">${ic('x')}Reset likes, follows and playlists</button></div>`};
 
 function route(k){
   const v=$('#view'),st=k===1?v.scrollTop:0,h=location.hash.slice(2).split('/'),p=V[h[0]]?h[0]:'lib';
@@ -169,7 +176,7 @@ so:()=>sheet(`<h3>Sort by</h3>${Object.entries(SN).map(([k,v])=>`<button class="
 ss:v=>{U.sort=v;save();sx();lib()},
 add:()=>sheet(`<h3>Create</h3><button class="op" data-a="np">${ic('plus',28)}<span><b>Playlist</b><small>Build a playlist with songs</small></span></button>`),
 np:()=>{sx();const n=(prompt('Playlist name')||'').trim();if(n&&!getPl(n)){U.custom.push({name:n,ids:[]});save();location.hash='#/pl/'+encodeURIComponent(n)}},
-prof:()=>sheet(`<h3>${e(L.owner)}</h3><button class="op" data-a="rst">Reset likes, pins and playlists</button>`),
+ren:()=>{const n=(prompt('Profile name',own())||'').trim();if(n){U.name=n;save();route(1)}},
 rst:()=>{if(confirm('Reset all local data?')){localStorage.removeItem('lib');location.reload()}},
 im:k=>{const nm=k.slice(3),ar=k.startsWith('ar:'),ev=k.startsWith('ev:'),ep=k=='Your Episodes',x=items().find(i=>i.key==k)||{n:ar?nm:k,cv:cv(ar?nm:k,'',ar)};
   sheet(`<div class="shh">${x.cv}<b>${e(x.n)}</b></div><button class="op" data-a="pin" data-v="${e(k)}">${ic('pin')}${U.pins.includes(k)?'Unpin':'Pin'}</button>${ar?`<button class="op" data-a="fol" data-v="${e(nm)}">${ic(U.follow.includes(nm)?'x':'plus')}${U.follow.includes(nm)?'Unfollow':'Follow'}</button>`:''}${ev||ep?'':`<button class="op" data-a="qpl" data-v="${e(k)}">${ic('queue')}Add to queue</button>`}${ar||ev?'':`<button class="op" data-a="dlt" data-v="${e(k)}">${ic('dlo')}${U.dl.includes(k)?'Remove download':'Download'}</button>`}${U.custom.some(c=>c.name==k)?`<button class="op" data-a="del" data-v="${e(k)}">${ic('x')}Delete playlist</button>`:''}`)},
@@ -212,7 +219,7 @@ document.addEventListener('input',ev=>{const t=ev.target;
   else if(t.id=='si'){q2=t.value;$('#sres').innerHTML=sres()}});
 document.addEventListener('change',ev=>{if(ev.target.id=='sk'){au.currentTime=ev.target.value/1000*(au.duration||0);drag=0}});
 
-/* swipe rows: right = like, left = add to queue */
+/* swipe rows: right = add to queue, left = like */
 (()=>{let r,x0,y0,dx,m;
   document.addEventListener('touchstart',ev=>{const k=ev.target.closest('.tk');if(!k||ev.target.closest('button')){r=null;return}r=k;x0=ev.touches[0].clientX;y0=ev.touches[0].clientY;dx=0;m=0},{passive:true});
   document.addEventListener('touchmove',ev=>{if(!r)return;const x=ev.touches[0].clientX-x0,y=ev.touches[0].clientY-y0;
@@ -220,8 +227,8 @@ document.addEventListener('change',ev=>{if(ev.target.id=='sk'){au.currentTime=ev
     dx=x;lp=1;r.style.transition='none';r.style.transform=`translateX(${dx}px)`;r.parentNode.className='sw '+(dx>0?'pr':'pl')},{passive:true});
   const end=()=>{if(!r)return;const k=r,w=k.offsetWidth;r=null;if(!m)return;m=0;k.style.transition='transform .2s';k.style.transform='';
     setTimeout(()=>{k.parentNode.className='sw'},220);const t=PL[+k.dataset.v];if(!t)return;
-    if(dx>w*.25){if(U.likes.includes(t.id))toast('Already in Liked Songs');else{U.likes.push(t.id);save();toast('Added to Liked Songs');pui();mui();route(1)}}
-    else if(dx<-w*.25)enq([t])};
+    if(dx>w*.25)enq([t]);
+    else if(dx<-w*.25){if(U.likes.includes(t.id))toast('Already in Liked Songs');else{U.likes.push(t.id);save();toast('Added to Liked Songs');pui();mui();route(1)}}};
   document.addEventListener('touchend',end);document.addEventListener('touchcancel',end)})();
 
 /* swipe down to close the player */
