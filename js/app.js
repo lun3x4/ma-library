@@ -40,7 +40,7 @@ chk:'<circle cx="12" cy="12" r="11" fill="#1ed760"/><path d="m7 12.5 3.5 3.5L17 
 add:'<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5v9M7.5 12h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
 dl:'<circle cx="12" cy="12" r="11" fill="#1ed760"/><path d="M12 6.5v9m-4-3.5 4 4 4-4" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
 dlo:'<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v9m-4-3.5 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
-spo:'<circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M6.5 9.3c3.9-1.2 8-.8 11 1.1M7 12.8c3.3-.9 6.3-.6 9 .9M7.6 16c2.6-.6 5-.4 7 .7" fill="none" stroke="#121212" stroke-width="1.7" stroke-linecap="round"/>'};
+};
 const ic=(n,s=24)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" ${S[n]?'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"':F[n]?'fill="currentColor"':''}>${S[n]||F[n]||C[n]}</svg>`;
 
 /* ---------- data ---------- */
@@ -76,18 +76,20 @@ function lst(){
   const on=x=>Q.length&&x.n==src?' g':'';
   if(!a.length)return'<p class="em">Nothing here yet</p>';
   if(U.grid)return`<div class="gr">${a.map(x=>`<a class="gc" href="${x.href}" data-key="${e(x.key)}">${x.cv}<b class="${on(x)}">${e(x.n)}</b><span>${e(x.sub)}</span></a>`).join('')}</div>`;
-  return a.map(x=>`<a class="r" href="${x.href}" data-key="${e(x.key)}">${x.cv}<div class="rt"><b class="${on(x)}">${e(x.n)}</b><span>${U.pins.includes(x.key)?`<i>${ic('pin',16)}</i>`:''}${U.dl.includes(x.key)&&(x.k=='pl'||x.k=='ep')?`<i>${ic('dl',16)}</i>`:''}${e(x.sub)}</span></div></a>`).join('');
+  return a.map(x=>`<a class="r" href="${x.href}" data-key="${e(x.key)}">${x.cv}<div class="rt"><b class="${on(x)}">${e(x.n)}</b><span>${U.pins.includes(x.key)?`<i>${ic('pin',14)}</i>`:''}${U.dl.includes(x.key)&&(x.k=='pl'||x.k=='ep')?`<i>${ic('dl',14)}</i>`:''}${e(x.sub)}</span></div></a>`).join('');
 }
-const tr=(t,i,thumb)=>`<div class="tk${t.id===Q[qi]?.id?' on':''}" data-a="play" data-v="${i}">${thumb?cv(t.pl,t.cover):''}<div><b>${e(t.title)}</b><span>${U.likes.includes(t.id)?`<i class="ck">${ic('chk',16)}</i>`:''}${e(t.artist)}</span></div><button data-a="tm" data-v="${e(t.id)}">${ic('dots')}</button></div>`;
+const tr=(t,i,thumb)=>`<div class="tk${t.id===Q[qi]?.id?' on':''}" data-a="play" data-v="${i}">${thumb?cv(t.pl,t.cover):''}<div class="tt"><b>${e(t.title)}</b><span>${U.likes.includes(t.id)?`<i class="ck">${ic('chk',16)}</i>`:''}${e(t.artist)}</span></div><button data-a="tm" data-v="${e(t.id)}">${ic('dots')}</button></div>`;
 const back=`<div class="tp"><button data-a="back">${ic('back',28)}</button></div>`;
-const lib=()=>{$('#view').innerHTML=V.lib()};
+const fit=()=>{$('#view').style.paddingTop=$('#top').offsetHeight+'px'};
+const lib=()=>{$('#top').innerHTML=libTop();$('#view').innerHTML=V.lib();fit()};
+const gone=()=>{setTimeout(()=>{location.hash='#/lib'});return''};
 
 /* ---------- views ---------- */
 const V={};
-V.lib=()=>{PL=[];return`<header class="hd"><button class="av" data-a="prof" style="${grad('me')}">${e((L.owner[0]||'m').toUpperCase())}</button><h1>Your Library</h1><button data-a="ls">${ic('search',28)}</button><button data-a="add">${ic('plus',32)}</button></header>
+const libTop=()=>`<header class="hd"><button class="av" data-a="prof" style="${grad('me')}">${e((L.owner[0]||'m').toUpperCase())}</button><h1>Your Library</h1><button data-a="ls">${ic('search',28)}</button><button data-a="add">${ic('plus',32)}</button></header>
 ${showS?`<div class="ib">${ic('search',18)}<input id="lq" placeholder="Search in Your Library" value="${e(q)}"></div>`:''}
-<div class="chips">${filt?`<button class="ch x" data-a="chip" data-v="${filt}">${ic('x',16)}</button>`:''}${Object.keys(FL).filter(f=>!filt||f==filt).map(f=>`<button class="ch${f==filt?' on':''}" data-a="chip" data-v="${f}">${f}</button>`).join('')}</div>
-<div class="sr"><button data-a="so">${ic('sort',22)}<span>${SN[U.sort]}</span></button><button data-a="vw">${ic(U.grid?'list':'grid',22)}</button></div><div id="list">${lst()}</div>`};
+<div class="chips">${filt?`<button class="ch x" data-a="chip" data-v="${filt}">${ic('x',14)}</button>`:''}${Object.keys(FL).filter(f=>!filt||f==filt).map(f=>`<button class="ch${f==filt?' on':''}" data-a="chip" data-v="${f}">${f}</button>`).join('')}</div>`;
+V.lib=()=>{PL=[];return`<div class="sr"><button data-a="so">${ic('sort',22)}<span>${SN[U.sort]}</span></button><button data-a="vw">${ic(U.grid?'list':'grid',22)}</button></div><div id="list">${lst()}</div>`};
 
 V.home=()=>{PL=[];const h=new Date().getHours(),a=items().filter(x=>x.k=='pl').slice(0,6),r=[...L.playlists].sort((x,y)=>(U.rec[y.name]||0)-(U.rec[x.name]||0)).slice(0,8);
 return`<h1 class="pg">${h<12?'Good morning':h<18?'Good afternoon':'Good evening'}</h1><div class="qg">${a.map(x=>`<a href="${x.href}">${x.cv}<b>${e(x.n)}</b></a>`).join('')}</div>${r.length?`<h2>Your playlists</h2><div class="hs">${r.map(p=>`<a href="#/pl/${encodeURIComponent(p.name)}">${cv(p.name,p.cover)}<b>${e(p.name)}</b></a>`).join('')}</div>`:''}`};
@@ -96,25 +98,25 @@ const sres=()=>{const s=q2.toLowerCase();if(!s){PL=[];return`<h2>Browse all</h2>
   PL=T.filter(t=>(t.title+' '+t.artist+' '+t.pl).toLowerCase().includes(s));return PL.map((t,i)=>tr(t,i,1)).join('')||'<p class="em">No results found</p>'};
 V.search=()=>`<h1 class="pg">Search</h1><div class="ib big">${ic('search',22)}<input id="si" placeholder="What do you want to listen to?" value="${e(q2)}"></div><div id="sres">${sres()}</div>`;
 
-V.prem=()=>`<h1 class="pg">Premium</h1><div class="pr"><h2>Listen without limits</h2><p>No ads, no shuffle-only, every track one tap away.</p><button data-a="toast" data-v="You're already Premium 😉">Try 1 month free</button></div>`;
 
-V.pl=n=>{const p=getPl(n);if(!p)return V.lib();PL=p.tracks;
+V.pl=n=>{const p=getPl(n);if(!p)return gone();PL=p.tracks;
 return`${back}<div class="hero">${p.liked?lcv():cv(n,p.cover)}<h1>${e(n)}</h1><p>${e(L.owner)} • ${PL.length} songs</p></div>
 <div class="ab"><button data-a="dlt" data-v="${e(n)}">${ic(U.dl.includes(n)?'dl':'dlo',28)}</button><button data-a="im" data-v="${e(n)}">${ic('dots',28)}</button><span></span><button data-a="shp" class="${shuf?'g':''}">${ic('shuf',28)}</button><button class="bp" data-a="pall">${ic('play',28)}</button></div>
 ${PL.map((t,i)=>tr(t,i)).join('')||'<p class="em">Nothing here yet. Add songs from any track’s ⋯ menu.</p>'}`};
 
 V.ar=n=>{PL=arts()[n]||[];return`${back}<div class="hero">${cv(n,(L.artists||{})[n],1)}<h1>${e(n)}</h1><p>${PL.length} songs</p></div><div class="ab"><span></span><button data-a="shp" class="${shuf?'g':''}">${ic('shuf',28)}</button><button class="bp" data-a="pall">${ic('play',28)}</button></div><h2>Popular</h2>${PL.map((t,i)=>tr(t,i)).join('')}`};
 
-V.ev=i=>{const v=(L.events||[])[i];if(!v)return V.lib();PL=[];const d=new Date(v.date+'T12:00');
+V.ev=i=>{const v=(L.events||[])[i];if(!v)return gone();PL=[];const d=new Date(v.date+'T12:00');
 return`${back}<div class="hero">${evc(v)}<h1>${e(v.name)}</h1><p>${d.toLocaleDateString('en',{dateStyle:'long'})} • ${e(v.venue)}</p></div>${v.url?`<p class="em"><a class="pill" href="${e(v.url)}" target="_blank" rel="noopener">Get tickets</a></p>`:''}`};
 V.ep=()=>{PL=[];return`${back}<div class="hero">${epc}<h1>Your Episodes</h1><p>${e(L.owner)}</p></div><p class="em">Podcast episodes you save will show up here.</p>`};
 
 function route(k){
   const v=$('#view'),st=k===1?v.scrollTop:0,h=location.hash.slice(2).split('/'),p=V[h[0]]?h[0]:'lib';
   cp=decodeURIComponent(h.slice(1).join('/'));
-  v.innerHTML=V[p](cp);v.scrollTop=st;
+  $('#top').innerHTML=p=='lib'?libTop():'';v.dataset.p=p;
+  v.innerHTML=V[p](cp);fit();v.scrollTop=st;
   if(k!==1){v.classList.remove('in');void v.offsetWidth;v.classList.add('in')}
-  const t=['home','search','prem'].includes(p)?p:'lib';
+  const t=['home','search'].includes(p)?p:'lib';
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v==t));
 }
 
@@ -203,11 +205,18 @@ document.addEventListener('input',ev=>{const t=ev.target;
   else if(t.id=='si'){q2=t.value;$('#sres').innerHTML=sres()}});
 document.addEventListener('change',ev=>{if(ev.target.id=='sk'){au.currentTime=ev.target.value/1000*(au.duration||0);drag=0}});
 
+/* swipe down to close the player */
+(()=>{const P=$('#player');let sy=null,dy=0,t0=0;
+  P.addEventListener('touchstart',ev=>{if(!P.classList.contains('open')||ev.target.closest('input')){sy=null;return}sy=ev.touches[0].clientY;dy=0;t0=Date.now()},{passive:true});
+  P.addEventListener('touchmove',ev=>{if(sy==null)return;dy=ev.touches[0].clientY-sy;if(dy>0){P.style.transition='none';P.style.transform=`translateY(${dy}px)`}},{passive:true});
+  const end=()=>{if(sy==null)return;P.style.transition='';P.style.transform='';if(dy>110||(dy>40&&Date.now()-t0<250))P.classList.remove('open');sy=null;dy=0};
+  P.addEventListener('touchend',end);P.addEventListener('touchcancel',end)})();
+
 /* ---------- init ---------- */
 (async()=>{
   try{L=Object.assign(L,await(await fetch('Musics/library.json?'+Date.now())).json())}catch(_){}
   L.playlists.forEach(p=>p.tracks.forEach(t=>{t.pl=p.name;t.id=t.src;t.cover=p.cover}));
   T=L.playlists.flatMap(p=>p.tracks);
-  $('#nav').innerHTML=[['home','Home','home'],['search','Search','search'],['lib','Your Library','lib'],['prem','Premium','spo']].map(([v,l,i])=>`<button data-a="go" data-v="${v}">${ic(i,26)}<span>${l}</span></button>`).join('');
+  $('#nav').innerHTML=[['home','Home','home'],['search','Search','search'],['lib','Your Library','lib']].map(([v,l,i])=>`<button data-a="go" data-v="${v}">${ic(i,26)}<span>${l}</span></button>`).join('');
   addEventListener('hashchange',route);route();
 })();
