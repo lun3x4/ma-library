@@ -1,0 +1,47 @@
+{
+ "owner": "me",
+ "playlists": [
+  {
+   "name": "Chill Vibes",
+   "cover": null,
+   "tracks": [
+    {
+     "title": "Sine Dream",
+     "artist": "Demo Artist",
+     "src": "Musics/Chill Vibes/Demo Artist - Sine Dream.wav"
+    },
+    {
+     "title": "Soft Waves",
+     "artist": "Demo Artist, Guest",
+     "src": "Musics/Chill Vibes/Demo Artist, Guest - Soft Waves.wav"
+    }
+   ]
+  },
+  {
+   "name": "Night Drive",
+   "cover": null,
+   "tracks": [
+    {
+     "title": "Last Exit",
+     "artist": "Another Act",
+     "src": "Musics/Night Drive/Another Act - Last Exit.wav"
+    },
+    {
+     "title": "Neon Road",
+     "artist": "Demo Artist",
+     "src": "Musics/Night Drive/Demo Artist - Neon Road.wav"
+    }
+   ]
+  }
+ ],
+ "events": [
+  {
+   "name": "Feldup",
+   "date": "2027-02-05",
+   "venue": "Le Rockstore, Montpellier",
+   "cover": "",
+   "url": ""
+  }
+ ],
+ "artists": {}
+}
