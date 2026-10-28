@@ -1,0 +1,102 @@
+{
+ "owner": "me",
+ "playlists": [
+  {
+   "name": "Cyberdepression",
+   "cover": null,
+   "tracks": [
+    {
+     "title": "A Rusty Dream",
+     "artist": "DOUDOU",
+     "src": "Musics/Cyberdepression/DOUDOU - A Rusty Dream.mp3"
+    },
+    {
+     "title": "In Love With Myself",
+     "artist": "Kalman Chodakiewitz",
+     "src": "Musics/Cyberdepression/Kalman Chodakiewitz - In Love With Myself.mp3"
+    },
+    {
+     "title": "High Forever",
+     "artist": "Petite Meller",
+     "src": "Musics/Cyberdepression/Petite Meller - High Forever.mp3"
+    },
+    {
+     "title": "You Cant Run From Me",
+     "artist": "Rico Nasty",
+     "src": "Musics/Cyberdepression/Rico Nasty - You Cant Run From Me.mp3"
+    },
+    {
+     "title": "I Really Want to Stay at Your House",
+     "artist": "Rosa Walton, Hallie Coggins",
+     "src": "Musics/Cyberdepression/Rosa Walton, Hallie Coggins - I Really Want to Stay at Your House.mp3"
+    }
+   ]
+  },
+  {
+   "name": "🪽",
+   "cover": null,
+   "tracks": [
+    {
+     "title": "Do I Wanna Know？",
+     "artist": "Arctic Monkeys",
+     "src": "Musics/🪽/Arctic Monkeys - Do I Wanna Know？.mp3"
+    },
+    {
+     "title": "Why'd You Only Call Me When You're High？",
+     "artist": "Arctic Monkeys",
+     "src": "Musics/🪽/Arctic Monkeys - Why'd You Only Call Me When You're High？.mp3"
+    },
+    {
+     "title": "Duvet",
+     "artist": "Boa",
+     "src": "Musics/🪽/Boa - Duvet.mp3"
+    },
+    {
+     "title": "Box Turtle, Magnificent Isnt She",
+     "artist": "Lady Radiator",
+     "src": "Musics/🪽/Lady Radiator - Box Turtle, Magnificent Isnt She.mp3"
+    },
+    {
+     "title": "For the First Time",
+     "artist": "Mac DeMarco",
+     "src": "Musics/🪽/Mac DeMarco - For the First Time.mp3"
+    },
+    {
+     "title": "青い、濃い、橙色の日",
+     "artist": "Mass of The Fermenting Dregs",
+     "src": "Musics/🪽/Mass of The Fermenting Dregs - 青い、濃い、橙色の日.mp3"
+    },
+    {
+     "title": "DᐳEᐳAᐳTᐳHᐳMᐳEᐳTᐳAᐳL",
+     "artist": "Panchiko",
+     "src": "Musics/🪽/Panchiko - DᐳEᐳAᐳTᐳHᐳMᐳEᐳTᐳAᐳL.mp3"
+    },
+    {
+     "title": "Kicking Cars",
+     "artist": "Panchiko",
+     "src": "Musics/🪽/Panchiko - Kicking Cars.mp3"
+    },
+    {
+     "title": "Laputa",
+     "artist": "Panchiko",
+     "src": "Musics/🪽/Panchiko - Laputa.mp3"
+    },
+    {
+     "title": "All I Need",
+     "artist": "Radiohead",
+     "src": "Musics/🪽/Radiohead - All I Need.mp3"
+    }
+   ]
+  }
+ ],
+ "events": [
+  {
+   "name": "Feldup",
+   "date": "2027-02-05",
+   "venue": "Le Rockstore, Montpellier",
+   "cover": "",
+   "url": ""
+  }
+ ],
+ "artists": {}
+}
